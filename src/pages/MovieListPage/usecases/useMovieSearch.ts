@@ -8,7 +8,7 @@ const DEFAULT_QUERIES = ["batman", "avengers", "star wars"];
 const DEFAULT_QUERY =
   DEFAULT_QUERIES[Math.floor(Math.random() * DEFAULT_QUERIES.length)];
 
-export function useMovieSearch() {
+export const useMovieSearch = () => {
   const dispatch = useAppDispatch();
   const state = useAppSelector(selectMovieList);
   const hasMore = useAppSelector(selectHasMore);
@@ -51,6 +51,33 @@ export function useMovieSearch() {
     }
   }, [search, state.query]);
 
+  const loadNextPage = useCallback(async () => {
+    if (state.isLoading) return;
+    if (!state.query) return;
+    if (!hasMore) return;
+
+    dispatch(movieListActions.setError(null));
+    dispatch(movieListActions.setLoading(true));
+
+    const nextPage = state.page + 1;
+
+    try {
+      const res = await searchMovies({ query: state.query, page: nextPage });
+
+      dispatch(
+        movieListActions.appendPage({
+          page: nextPage,
+          items: res.items,
+          totalResults: res.totalResults,
+        })
+      );
+    } catch (e) {
+      dispatch(movieListActions.setError(e instanceof Error ? e.message : String(e)));
+    } finally {
+      dispatch(movieListActions.setLoading(false));
+    }
+  }, [dispatch, state.isLoading, state.query, state.page, hasMore]);
+
   return {
     // state
     items: state.items || [],
@@ -62,5 +89,7 @@ export function useMovieSearch() {
     hasMore,
     // actions
     search,
+    loadNextPage,
+    reset: () => dispatch(movieListActions.reset()),
   };
 }

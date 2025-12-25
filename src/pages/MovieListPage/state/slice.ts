@@ -43,6 +43,25 @@ const movieListSlice = createSlice({
       state.items = action.payload.items;
       state.totalResults = action.payload.totalResults;
     },
+    appendPage(
+      state,
+      action: PayloadAction<{
+        page: number;
+        items: MovieListItem[];
+        totalResults: number;
+      }>
+    ) {
+      state.page = action.payload.page;
+      state.totalResults = action.payload.totalResults;
+
+      const existing = new Set(state.items.map((m) => m.id));
+      for (const item of action.payload.items) {
+        if (!existing.has(item.id)) state.items.push(item);
+      }
+    },
+    reset() {
+      return initialState;
+    },
   },
 });
 
