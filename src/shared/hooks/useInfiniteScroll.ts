@@ -10,7 +10,7 @@ type Options = {
   threshold?: number;
 };
 
-export function useInfiniteScroll({
+export const useInfiniteScroll = ({
   enabled,
   isLoading,
   hasMore,
@@ -18,7 +18,7 @@ export function useInfiniteScroll({
   root = null,
   rootMargin = "400px",
   threshold = 0,
-}: Options) {
+}: Options) => {
   const sentinelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {

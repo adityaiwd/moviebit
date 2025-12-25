@@ -1,7 +1,7 @@
 import { fetchSearchMovies } from "./fetcher";
 import { mapSearchResponse } from "./mapper";
 
-export async function searchMovies(params: { query: string; page: number }) {
+export const searchMovies = async (params: { query: string; page: number }) => {
   const res = await fetchSearchMovies(params);
   const mapped = mapSearchResponse(res.data);
   return {
