@@ -1,73 +1,172 @@
-# React + TypeScript + Vite
+# 🎬 Movie Explorer App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React application for browsing movies using the **OMDb API**, featuring search, autocomplete, infinite scrolling, and detailed movie pages.
 
-Currently, two official plugins are available:
+This project was built as part of a take-home assignment, with a focus on **clean architecture**, **maintainability**, and **practical UX decisions**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## ✨ Features
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+### Movie List Page
 
-## Expanding the ESLint configuration
+* Search movies by title
+* **Autocomplete suggestions** (debounced, cached, keyboard-navigable)
+* **Infinite scrolling** for search results
+* Default movie list before user searches
+* Poster image fallback for missing/broken posters
+* Click poster to open **zoomed modal preview**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Movie Detail Page
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+* Fetches and displays full movie details
+* Large poster preview with modal
+* Handles loading and error states gracefully
+* No unnecessary global state
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### UI / UX
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+* Dark mode using **shadcn/ui + Tailwind**
+* Loading indicators and error toasts
+* Keyboard accessibility for search and autocomplete
+
+---
+
+## 🛠️ Tech Stack
+
+* **React 18**
+* **Vite**
+* **TypeScript**
+* **Redux Toolkit**
+* **React Router**
+* **Tailwind CSS**
+* **shadcn/ui**
+* **Axios**
+* **Vitest + React Testing Library**
+
+---
+
+## 🧠 Architectural Decisions
+
+### Why Redux is only used on the Movie List page
+
+The movie list page requires:
+
+* Accumulated state (infinite scroll)
+* Pagination handling
+* Deduplication of results
+* Shared state across components
+
+Redux Toolkit is used here to keep state predictable and centralized.
+
+### Why Redux is NOT used on the Movie Detail page
+
+The movie detail page:
+
+* Fetches a single resource
+* Has a simple lifecycle
+* Is not shared across components
+
+Using local state via a custom hook keeps the code simpler and avoids unnecessary global state.
+
+---
+
+## 📁 Project Structure (Simplified)
+
+```
+src/
+  app/                # App-level setup (store, router)
+  pages/
+    MovieListPage/
+      components/
+      repository/
+      state/
+      usecases/
+    MovieDetailPage/
+      repository/
+      usecases/
+  shared/
+    hooks/
+    ui/
+    repository/
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+This structure separates:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+* **data fetching** (repository)
+* **business logic** (usecases)
+* **state management** (Redux or hooks)
+* **presentation components**
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## 🔍 Autocomplete Implementation
+
+* Uses OMDb search (`page=1`) as suggestion source
+* Debounced to avoid rate limits
+* Only triggers after **3+ characters**
+* Results are cached in-memory
+* Supports keyboard navigation (↑ ↓ Enter Esc)
+
+This keeps the feature responsive while being API-friendly.
+
+---
+
+## 🧪 Testing
+
+Unit tests are written for core UI components using **Vitest** and **React Testing Library**:
+
+* SearchBar
+* PosterImage (fallback behavior)
+* PosterModal
+* MovieCard interactions
+
+Tests focus on **user behavior**, not implementation details.
+
+Run tests with:
+
+```bash
+npm run test
 ```
+
+---
+
+## 🚀 Getting Started
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Configure environment variables
+
+Create a `.env.local` file in the project root:
+
+```env
+VITE_OMDB_API_KEY=your_omdb_api_key_here
+```
+
+You can get a free API key from:
+[https://www.omdbapi.com/](https://www.omdbapi.com/)
+
+### 3. Run the development server
+
+```bash
+npm run dev
+```
+
+The app will be available at:
+
+```
+http://localhost:5173
+```
+
+---
+
+## ⚠️ Notes on OMDb API
+
+* OMDb has strict rate limits
+* Autocomplete and search are debounced and cached to minimize requests
+* Some poster URLs are low-resolution or broken — fallbacks are handled in the UI
+
