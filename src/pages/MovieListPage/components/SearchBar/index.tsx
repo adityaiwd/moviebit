@@ -72,7 +72,7 @@ const SearchBar = ({ onSearch }: Props) => {
         <button
           aria-label="search-button"
           onClick={submit}
-          className="rounded-md border px-3 py-2 text-sm hover:bg-accent"
+          className="rounded-md bg-secondary px-4 py-2 text-sm text-secondary-foreground hover:bg-secondary/80"
         >
           Search
         </button>
@@ -100,7 +100,9 @@ const SearchBar = ({ onSearch }: Props) => {
                 onClick={() => pick(m.title)}
                 className={[
                   "w-full text-left px-3 py-2 text-sm",
-                  idx === activeIndex ? "bg-accent" : "hover:bg-accent",
+                  "bg-background",
+                  "hover:bg-accent",
+                  idx === activeIndex ? "bg-accent" : "",
                 ].join(" ")}
               >
                 <div className="font-medium">{m.title}</div>
