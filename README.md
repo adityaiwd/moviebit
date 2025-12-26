@@ -170,3 +170,17 @@ http://localhost:5173
 * Autocomplete and search are debounced and cached to minimize requests
 * Some poster URLs are low-resolution or broken — fallbacks are handled in the UI
 
+---
+
+## 🧩 Coding Logic Test – Anagram
+
+The solution for the anagram problem is included in this repository.
+
+**Location: /logic-test/anagram.ts**
+
+### Approach
+- ES5-style implementation (no `map`, `sort`, `reduce`, `filter`)
+- Uses character frequency counting to generate a stable key for each word
+- Groups words that share the same key
+
+This approach avoids sorting and runs in linear time relative to the input size.
