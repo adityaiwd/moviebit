@@ -27,7 +27,6 @@ a:hover {
 }
 
 body {
-  @apply bg-background text-foreground;
   margin: 0;
   /* display: flex; */
   /* min-width: 320px; */
@@ -100,8 +99,8 @@ button:focus-visible {
     --radius: 0.5rem;
   }
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
     --card: 0 0% 3.9%;
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 3.9%;
@@ -126,6 +125,8 @@ button:focus-visible {
     --chart-5: 340 75% 55%;
   }
 }
+
+
 
 @layer base {
   * {
