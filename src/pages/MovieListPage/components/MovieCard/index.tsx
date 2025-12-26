@@ -9,18 +9,18 @@ const MovieCard = ({ posterUrl, title, year, id }: MovieListItem) => {
 
   return (
     <>
-      <div className="p-6 flex flex-col items-center space-y-4 bg-neutral-700 rounded-lg">
+      <div className="p-3 h-full md:p-6 flex flex-col items-center justify-between bg-neutral-700 rounded-lg">
         <PosterImage
           src={posterUrl}
           alt={title}
           onClick={() => setOpenModal(true)}
         />
-        <div className="word-wrap w-full">
-          <h2 className="text-xl font-semibold">{title}</h2>
+        <div className="word-wrap w-full mt-4">
+          <h2 className="md:text-xl font-semibold">{title}</h2>
           <div className="flex justify-between align-middle">
 
-          <p className="text-lg text-gray-300">{year ?? "N/A"}</p>
-          <NavLink to={`/movie/${id}`}>Details</NavLink>
+          <p className="md:text-lg text-gray-300">{year ?? "N/A"}</p>
+          <NavLink to={`/movie/${id}`} className="xs:sm:text-sm md:text-lg">Details</NavLink>
           </div>
         </div>
       </div>

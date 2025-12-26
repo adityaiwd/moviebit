@@ -36,7 +36,7 @@ const MovieListPage = () => {
   }, [error]);
 
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="w-full flex flex-col items-center px-4">
       <SearchBar onSearch={handleSearch} />
 
       {isInitialLoading ? (
@@ -45,7 +45,7 @@ const MovieListPage = () => {
           <span>Loading movies…</span>
         </div>
       ) : (
-        <div className="mt-4 space-y-2 grid grid-cols-2 gap-8 w-full md:max-w-[60%] lg:max-w-[60%] mx-auto">
+        <div className="mt-4 grid grid-cols-2 gap-4 w-full md:max-w-[60%] lg:max-w-[60%] mx-auto">
           {items.map((m) => (
             <MovieCard key={m.id} {...m} />
           ))}
