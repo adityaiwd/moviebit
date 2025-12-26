@@ -10,7 +10,7 @@ type Props = {
 
 const placeholder = '/placeholder.svg'
 
-export function PosterImage({ src, alt, className, onClick }: Props) {
+const PosterImage = ({ src, alt, className, onClick }: Props) => {
   const [error, setError] = useState(false);
 
   const imageSrc = !src || src === "N/A" || error ? placeholder : src;
@@ -29,3 +29,5 @@ export function PosterImage({ src, alt, className, onClick }: Props) {
     />
   );
 }
+
+export default PosterImage;

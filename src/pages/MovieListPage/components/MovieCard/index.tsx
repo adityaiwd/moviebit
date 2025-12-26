@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { type MovieListItem } from "@/pages/MovieListPage/model";
 import { NavLink } from "react-router-dom";
-import { PosterImage } from "../PosterImage";
-import { PosterModal } from "../PosterModal";
+import PosterImage  from "@/components/PosterImage";
+import PosterModal  from "@/components/PosterModal";
 
 const MovieCard = ({ posterUrl, title, year, id }: MovieListItem) => {
   const [openModal, setOpenModal] = useState(false);

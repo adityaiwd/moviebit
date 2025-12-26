@@ -15,7 +15,7 @@ type Props = {
 
 const placeholder = "/placeholder.svg";
 
-export function PosterModal({ src, title, open, onOpenChange }: Props) {
+const PosterModal = ({ src, title, open, onOpenChange }: Props) => {
   const [imgError, setImgError] = useState(false);
 
   const previewSrc = useMemo(() => {
@@ -59,3 +59,5 @@ export function PosterModal({ src, title, open, onOpenChange }: Props) {
     </Dialog>
   );
 }
+
+export default PosterModal;
